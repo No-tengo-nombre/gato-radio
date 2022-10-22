@@ -14,6 +14,7 @@ log_fmt = logging.Formatter(
 # Stream logger
 str_hdl = logging.StreamHandler()
 str_hdl.setFormatter(log_fmt)
+str_hdl.setLevel(logging.WARNING)
 LOGGER.addHandler(str_hdl)
 
 # File logger
