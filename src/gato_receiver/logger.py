@@ -1,4 +1,4 @@
-from gato.configs import __BASE_DIR__
+from gato_receiver.configs import __BASE_DIR__
 from datetime import datetime
 import logging
 import os
