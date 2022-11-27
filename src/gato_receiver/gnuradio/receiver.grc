@@ -33,18 +33,6 @@ options:
     state: enabled
 
 blocks:
-- name: Singal_bandwidth
-  id: variable
-  parameters:
-    comment: ''
-    value: 5M
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [216, 332.0]
-    rotation: 0
-    state: true
 - name: carrier_freq
   id: variable_qtgui_range
   parameters:
@@ -77,9 +65,21 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 12]
+    coordinate: [208, 244.0]
     rotation: 0
     state: enabled
+- name: signal_bandwidth
+  id: variable
+  parameters:
+    comment: ''
+    value: 1725M
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [168, 332.0]
+    rotation: 0
+    state: true
 - name: variable_qtgui_range_1
   id: variable_qtgui_range
   parameters:
