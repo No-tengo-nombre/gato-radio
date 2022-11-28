@@ -81,30 +81,16 @@ class top_block(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.samp_rate = samp_rate = 2560000
-        self.resampler_interp = resampler_interp = 12
-        self.resampler_decimation = resampler_decimation = 5
         self.quadrature = quadrature = 250e3
         self.lp_width = lp_width = 25e3
-        self.lp_decimation = lp_decimation = 12
         self.lp_cutoff = lp_cutoff = 75e3
         self.channel_freq = channel_freq = 93300000
+        self.audio_samp_rate = audio_samp_rate = 48e3
         self.audio_gain = audio_gain = 1
 
         ##################################################
         # Blocks
         ##################################################
-        self._quadrature_range = Range(1e3, 500e3, 1e3, 250e3, 200)
-        self._quadrature_win = GrRangeWidget(self._quadrature_range, self.set_quadrature, "Quadrature", "counter_slider", float, QtCore.Qt.Horizontal, "value")
-
-        self.top_layout.addWidget(self._quadrature_win)
-        self._lp_width_range = Range(1e3, 300e3, 1e3, 25e3, 200)
-        self._lp_width_win = GrRangeWidget(self._lp_width_range, self.set_lp_width, "Low pass width", "counter_slider", float, QtCore.Qt.Horizontal, "value")
-
-        self.top_layout.addWidget(self._lp_width_win)
-        self._lp_cutoff_range = Range(1e3, 300e3, 1e3, 75e3, 200)
-        self._lp_cutoff_win = GrRangeWidget(self._lp_cutoff_range, self.set_lp_cutoff, "Low pass cutoff", "counter_slider", float, QtCore.Qt.Horizontal, "value")
-
-        self.top_layout.addWidget(self._lp_cutoff_win)
         self._channel_freq_range = Range(50000000, 150000000, 100000, 93300000, 200)
         self._channel_freq_win = GrRangeWidget(self._channel_freq_range, self.set_channel_freq, "Channel frequency", "counter_slider", int, QtCore.Qt.Horizontal, "value")
 
@@ -128,16 +114,8 @@ class top_block(gr.top_block, Qt.QWidget):
         self.rtlsdr_source_0.set_bb_gain(20, 0)
         self.rtlsdr_source_0.set_antenna('', 0)
         self.rtlsdr_source_0.set_bandwidth(0, 0)
-        self._resampler_interp_range = Range(1, 50, 1, 12, 200)
-        self._resampler_interp_win = GrRangeWidget(self._resampler_interp_range, self.set_resampler_interp, "Resampler interpolation", "counter_slider", int, QtCore.Qt.Horizontal, "value")
-
-        self.top_layout.addWidget(self._resampler_interp_win)
-        self._resampler_decimation_range = Range(1, 50, 1, 5, 200)
-        self._resampler_decimation_win = GrRangeWidget(self._resampler_decimation_range, self.set_resampler_decimation, "Resampler decimation", "counter_slider", int, QtCore.Qt.Horizontal, "value")
-
-        self.top_layout.addWidget(self._resampler_decimation_win)
         self.rational_resampler_xxx_1 = filter.rational_resampler_fff(
-                interpolation=int(48e3),
+                interpolation=int(audio_samp_rate),
                 decimation=int(quadrature),
                 taps=[],
                 fractional_bw=0)
@@ -273,10 +251,6 @@ class top_block(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
-        self._lp_decimation_range = Range(1, 50, 1, 12, 200)
-        self._lp_decimation_win = GrRangeWidget(self._lp_decimation_range, self.set_lp_decimation, "Low pass decimation", "counter_slider", int, QtCore.Qt.Horizontal, "value")
-
-        self.top_layout.addWidget(self._lp_decimation_win)
         self.low_pass_filter_0 = filter.fir_filter_ccf(
             (int(samp_rate / quadrature)),
             firdes.low_pass(
@@ -287,7 +261,7 @@ class top_block(gr.top_block, Qt.QWidget):
                 window.WIN_HAMMING,
                 6.76))
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(audio_gain)
-        self.audio_sink_0 = audio.sink(48000, '', True)
+        self.audio_sink_0 = audio.sink(int(audio_samp_rate), '', True)
         self.analog_wfm_rcv_0 = analog.wfm_rcv(
         	quad_rate=quadrature,
         	audio_decimation=1,
@@ -326,18 +300,6 @@ class top_block(gr.top_block, Qt.QWidget):
         self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.rtlsdr_source_0.set_sample_rate(self.samp_rate)
 
-    def get_resampler_interp(self):
-        return self.resampler_interp
-
-    def set_resampler_interp(self, resampler_interp):
-        self.resampler_interp = resampler_interp
-
-    def get_resampler_decimation(self):
-        return self.resampler_decimation
-
-    def set_resampler_decimation(self, resampler_decimation):
-        self.resampler_decimation = resampler_decimation
-
     def get_quadrature(self):
         return self.quadrature
 
@@ -350,12 +312,6 @@ class top_block(gr.top_block, Qt.QWidget):
     def set_lp_width(self, lp_width):
         self.lp_width = lp_width
         self.low_pass_filter_0.set_taps(firdes.low_pass(1, self.samp_rate, self.lp_cutoff, self.lp_width, window.WIN_HAMMING, 6.76))
-
-    def get_lp_decimation(self):
-        return self.lp_decimation
-
-    def set_lp_decimation(self, lp_decimation):
-        self.lp_decimation = lp_decimation
 
     def get_lp_cutoff(self):
         return self.lp_cutoff
@@ -372,6 +328,12 @@ class top_block(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_0.set_frequency_range(self.channel_freq, self.samp_rate)
         self.qtgui_freq_sink_x_0_0.set_frequency_range(self.channel_freq, self.samp_rate)
         self.rtlsdr_source_0.set_center_freq(self.channel_freq, 0)
+
+    def get_audio_samp_rate(self):
+        return self.audio_samp_rate
+
+    def set_audio_samp_rate(self, audio_samp_rate):
+        self.audio_samp_rate = audio_samp_rate
 
     def get_audio_gain(self):
         return self.audio_gain

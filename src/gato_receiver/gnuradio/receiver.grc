@@ -56,6 +56,18 @@ blocks:
     coordinate: [368, 8.0]
     rotation: 0
     state: true
+- name: audio_samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 48e3
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 92.0]
+    rotation: 0
+    state: enabled
 - name: channel_freq
   id: variable_qtgui_range
   parameters:
@@ -80,143 +92,41 @@ blocks:
     rotation: 0
     state: true
 - name: lp_cutoff
-  id: variable_qtgui_range
+  id: variable
   parameters:
     comment: ''
-    gui_hint: ''
-    label: Low pass cutoff
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    outputmsgname: value
-    rangeType: float
-    showports: 'False'
-    start: 1e3
-    step: 1e3
-    stop: 300e3
     value: 75e3
-    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1048, 8.0]
+    coordinate: [616, 12.0]
     rotation: 0
-    state: true
-- name: lp_decimation
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Low pass decimation
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    outputmsgname: value
-    rangeType: int
-    showports: 'False'
-    start: '1'
-    step: '1'
-    stop: '50'
-    value: '12'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [864, 8.0]
-    rotation: 0
-    state: true
+    state: enabled
 - name: lp_width
-  id: variable_qtgui_range
+  id: variable
   parameters:
     comment: ''
-    gui_hint: ''
-    label: Low pass width
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    outputmsgname: value
-    rangeType: float
-    showports: 'False'
-    start: 1e3
-    step: 1e3
-    stop: 300e3
     value: 25e3
-    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1200, 8.0]
+    coordinate: [712, 12.0]
     rotation: 0
-    state: true
+    state: enabled
 - name: quadrature
-  id: variable_qtgui_range
+  id: variable
   parameters:
     comment: ''
-    gui_hint: ''
-    label: Quadrature
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    outputmsgname: value
-    rangeType: float
-    showports: 'False'
-    start: 1e3
-    step: 1e3
-    stop: 500e3
     value: 250e3
-    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1352, 8.0]
+    coordinate: [808, 12.0]
     rotation: 0
-    state: true
-- name: resampler_decimation
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Resampler decimation
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    outputmsgname: value
-    rangeType: int
-    showports: 'False'
-    start: '1'
-    step: '1'
-    stop: '50'
-    value: '5'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [680, 8.0]
-    rotation: 0
-    state: true
-- name: resampler_interp
-  id: variable_qtgui_range
-  parameters:
-    comment: ''
-    gui_hint: ''
-    label: Resampler interpolation
-    min_len: '200'
-    orient: QtCore.Qt.Horizontal
-    outputmsgname: value
-    rangeType: int
-    showports: 'False'
-    start: '1'
-    step: '1'
-    stop: '50'
-    value: '12'
-    widget: counter_slider
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [488, 8.0]
-    rotation: 0
-    state: true
+    state: enabled
 - name: samp_rate
   id: variable
   parameters:
@@ -226,7 +136,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [8, 108.0]
+    coordinate: [512, 12.0]
     rotation: 0
     state: enabled
 - name: analog_sig_source_x_0
@@ -277,7 +187,7 @@ blocks:
     device_name: ''
     num_inputs: '1'
     ok_to_block: 'True'
-    samp_rate: '48000'
+    samp_rate: int(audio_samp_rate)
   states:
     bus_sink: false
     bus_source: false
@@ -652,7 +562,7 @@ blocks:
     comment: ''
     decim: int(quadrature)
     fbw: '0'
-    interp: int(48e3)
+    interp: int(audio_samp_rate)
     maxoutbuf: '0'
     minoutbuf: '0'
     taps: '[]'
