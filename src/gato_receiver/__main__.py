@@ -1,5 +1,5 @@
-from gato.logger import LOGGER
-from gato import app
+from gato_receiver.logger import LOGGER
+from gato_receiver import app
 
 import argparse
 import logging
