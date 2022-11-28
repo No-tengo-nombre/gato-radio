@@ -139,28 +139,6 @@ blocks:
     coordinate: [512, 12.0]
     rotation: 0
     state: enabled
-- name: analog_sig_source_x_0
-  id: analog_sig_source_x
-  parameters:
-    affinity: ''
-    alias: ''
-    amp: '1'
-    comment: ''
-    freq: channel_freq
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    offset: '0'
-    phase: '0'
-    samp_rate: samp_rate
-    type: complex
-    waveform: analog.GR_COS_WAVE
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [48, 304.0]
-    rotation: 0
-    state: disabled
 - name: analog_wfm_rcv_0
   id: analog_wfm_rcv
   parameters:
@@ -213,24 +191,6 @@ blocks:
     coordinate: [1232, 288.0]
     rotation: 0
     state: true
-- name: blocks_multiply_xx_0
-  id: blocks_multiply_xx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    num_inputs: '2'
-    type: complex
-    vlen: '1'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [360, 280.0]
-    rotation: 0
-    state: disabled
 - name: low_pass_filter_0
   id: low_pass_filter
   parameters:
@@ -514,46 +474,6 @@ blocks:
     coordinate: [1440, 340.0]
     rotation: 0
     state: true
-- name: rational_resampler_xxx_0
-  id: rational_resampler_xxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    decim: resampler_decimation
-    fbw: '0'
-    interp: resampler_interp
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    taps: '[]'
-    type: ccc
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [712, 172.0]
-    rotation: 0
-    state: disabled
-- name: rational_resampler_xxx_0_0
-  id: rational_resampler_xxx
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-    decim: int(quadrature / 1e3)
-    fbw: '0'
-    interp: '48'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    taps: '[]'
-    type: fff
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1096, 372.0]
-    rotation: 0
-    state: disabled
 - name: rational_resampler_xxx_1
   id: rational_resampler_xxx
   parameters:
@@ -933,15 +853,12 @@ blocks:
     state: true
 
 connections:
-- [analog_sig_source_x_0, '0', blocks_multiply_xx_0, '0']
 - [analog_wfm_rcv_0, '0', rational_resampler_xxx_1, '0']
 - [blocks_multiply_const_vxx_0, '0', audio_sink_0, '0']
 - [blocks_multiply_const_vxx_0, '0', qtgui_time_sink_x_0, '0']
-- [blocks_multiply_xx_0, '0', low_pass_filter_0, '0']
 - [low_pass_filter_0, '0', analog_wfm_rcv_0, '0']
 - [low_pass_filter_0, '0', qtgui_freq_sink_x_0_0, '0']
 - [rational_resampler_xxx_1, '0', blocks_multiply_const_vxx_0, '0']
-- [rtlsdr_source_0, '0', blocks_multiply_xx_0, '1']
 - [rtlsdr_source_0, '0', low_pass_filter_0, '0']
 - [rtlsdr_source_0, '0', qtgui_freq_sink_x_0, '0']
 
