@@ -53,7 +53,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [224, 472.0]
+    coordinate: [256, 472.0]
     rotation: 0
     state: true
 - name: if_gain
@@ -76,7 +76,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [120, 472.0]
+    coordinate: [136, 472.0]
     rotation: 0
     state: true
 - name: noise
@@ -134,7 +134,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [168, 24.0]
+    coordinate: [192, 28.0]
     rotation: 0
     state: enabled
 - name: analog_wfm_tx_0
@@ -154,7 +154,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [752, 208.0]
+    coordinate: [736, 208.0]
     rotation: 0
     state: true
 - name: audio_source_0
@@ -191,7 +191,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [624, 232.0]
+    coordinate: [624, 240.0]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0
@@ -488,7 +488,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1280, 156.0]
+    coordinate: [1320, 156.0]
     rotation: 0
     state: true
 - name: qtgui_freq_sink_x_0_0
@@ -589,7 +589,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1032, 216.0]
+    coordinate: [1048, 220.0]
     rotation: 0
     state: true
 
