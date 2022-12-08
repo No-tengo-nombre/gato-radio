@@ -16,10 +16,7 @@ BUFFER_TIME = 5
 BLOCKSIZE = 2 ** 10
 
 
-stop_event = threading.Event()
-
-
-def receive(sock, q):
+def receive(sock, q, stop_event):
     print("Started receiving")
     while True:
         if stop_event.is_set():
@@ -43,8 +40,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect(("127.0.0.1", 42069))
     print("Connected")
     output_event = threading.Event()
+    stop_event = threading.Event()
 
-    recv_thread = threading.Thread(target=receive, args=(s, q))
+    recv_thread = threading.Thread(target=receive, args=(s, q, stop_event))
     recv_thread.start()
 
     p = pyaudio.PyAudio()
@@ -54,7 +52,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     while True:
         try:
             frame = q.get_nowait()
-            stream.write(frame)
+            frame_array = np.frombuffer(frame, dtype=np.float32)
+
+            # Preprocessing...
+
+            stream.write(frame_array.tobytes())
         except:
             stop_event.set()
             break
