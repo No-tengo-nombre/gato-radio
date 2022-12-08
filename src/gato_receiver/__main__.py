@@ -1,8 +1,7 @@
-from gato_receiver.logger import LOGGER
+from gato_receiver.logger import setup_logger
 from gato_receiver import app
 
 import argparse
-import logging
 
 
 desc_str = """Radio service based on a HackRF One."""
@@ -25,10 +24,7 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-if args.debug:
-    LOGGER.setLevel(logging.DEBUG)
 
-LOGGER.debug(f"Application args: {args}")
-
+setup_logger()
 main_app = app.App()
 main_app.run()
