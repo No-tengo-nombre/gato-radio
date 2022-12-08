@@ -23,12 +23,8 @@ def receive(sock, q, stop_event):
             print("Stopping thread")
             break
 
-        data = sock.recv(WINDOW)
-        indices = np.arange(WINDOW)
-        grouped_data = [data[i:i+4] for i in indices[::4] if data[i:i+4] != b""]
-
         try:
-            q.put_nowait(b"".join(grouped_data))
+            q.put_nowait(sock.recv(WINDOW))
         except queue.Full:
             print("O")
             continue
