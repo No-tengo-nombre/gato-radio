@@ -1,5 +1,6 @@
-from gato_receiver.logger import setup_logger
 from gato_receiver import app
+from gato_receiver.configs import DEFAULT_SERVER_IP, DEFAULT_SERVER_PORT
+from gato_receiver.logger import setup_logger
 
 import argparse
 
@@ -7,6 +8,20 @@ import argparse
 desc_str = """Radio service based on a HackRF One."""
 
 parser = argparse.ArgumentParser(description=desc_str)
+parser.add_argument(
+    "-i", "--ip",
+    action="store",
+    type=str,
+    help="Target ip.",
+    default=DEFAULT_SERVER_IP,
+)
+parser.add_argument(
+    "-p", "--port",
+    action="store",
+    type=int,
+    help="Target port.",
+    default=DEFAULT_SERVER_PORT,
+)
 parser.add_argument(
     "-d", "--debug",
     action="store_true",
@@ -25,6 +40,6 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-setup_logger()
-main_app = app.App()
+setup_logger(args.quiet, args.debug, args.verbose)
+main_app = app.App(args.ip, args.port)
 main_app.run()

@@ -1,11 +1,9 @@
-import numpy as np
-import pyaudio
 import queue
 import socket
 import threading
 
 from gato_receiver.configs import BUFFER_TIME, DEFAULT_SERVER_IP, DEFAULT_SERVER_PORT, RECEIVE_WINDOW, SAMPLE_RATE
-from gato_receiver.gnuradio import gato_receiver_tcp
+# from gato_receiver.gnuradio import gato_receiver_tcp
 from gato_receiver.logger import LOGGER
 
 
@@ -17,8 +15,8 @@ class App:
         self.audio_buffer = queue.Queue(int(BUFFER_TIME * RECEIVE_WINDOW / SAMPLE_RATE))
 
     def run(self) -> None:
-        gnu_thread = threading.Thread(target=gato_receiver_tcp.main)
-        gnu_thread.start()
+        # gnu_thread = threading.Thread(target=gato_receiver_tcp.main)
+        # gnu_thread.start()
 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sdr_s:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_s:
@@ -26,8 +24,8 @@ class App:
                 sdr_s.connect(("127.0.0.1", 42069))
                 LOGGER.info("Connected to SDR.")
                 LOGGER.info("Waiting for server connection")
-                LOGGER.info("Connected to server.")
                 server_s.connect((self.target_ip, self.target_port))
+                LOGGER.info("Connected to server.")
 
                 while True:
                     packet = sdr_s.recv(RECEIVE_WINDOW)
