@@ -26,12 +26,10 @@ def play_audio(ip="", port=42069, preprocessing=None):
 
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        # s.bind((ip, port))
-        # s.listen()
+        s.bind((ip, port))
+        s.listen()
 
-        # conn, addr = s.accept()
-        conn = s
-        conn.connect((ip, port))
+        conn, addr = s.accept()
         print("Connected")
         stop_event = threading.Event()
 
