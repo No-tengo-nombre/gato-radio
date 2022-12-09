@@ -26,11 +26,14 @@ def play_audio(ip="", port=42069, preprocessing=None):
 
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((ip, port))
+        s.bind((ip, port))
+        s.listen()
+
+        conn, addr = s.accept()
         print("Connected")
         stop_event = threading.Event()
 
-        recv_thread = threading.Thread(target=receive, args=(s, q, stop_event))
+        recv_thread = threading.Thread(target=receive, args=(conn, q, stop_event))
         recv_thread.start()
 
         p = pyaudio.PyAudio()
