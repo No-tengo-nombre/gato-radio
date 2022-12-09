@@ -26,10 +26,12 @@ def play_audio(ip="", port=42069, preprocessing=None):
 
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((ip, port))
-        s.listen()
+        # s.bind((ip, port))
+        # s.listen()
 
-        conn, addr = s.accept()
+        # conn, addr = s.accept()
+        conn = s
+        conn.connect((ip, port))
         print("Connected")
         stop_event = threading.Event()
 
@@ -42,7 +44,7 @@ def play_audio(ip="", port=42069, preprocessing=None):
         print("Initiating stream")
         while True:
             try:
-                frame = q.get_nowait()
+                frame = q.get()
                 frame_array = np.frombuffer(frame, dtype=np.float32)
 
                 if preprocessing is not None:
